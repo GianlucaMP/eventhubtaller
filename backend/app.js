@@ -4,7 +4,15 @@ import pool from './db.js'
 
 const app = express()
 
-app.use(cors({ origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173' }))
+const origenes = (
+  process.env.CORS_ORIGIN ??
+  'http://localhost:5173,https://eventhubtaller.vercel.app'
+)
+  .split(',')
+  .map((origen) => origen.trim())
+  .filter(Boolean)
+
+app.use(cors({ origin: origenes }))
 
 app.use(express.json())
 
