@@ -72,6 +72,15 @@ function App() {
     cargarEventos().catch((error) => console.error("Error:", error));
   }, [cargarEventos]);
 
+  useEffect(() => {
+    if (!confirmacion && !errorInscripcion) return;
+    const id = setTimeout(() => {
+      setConfirmacion("");
+      setErrorInscripcion("");
+    }, 4000);
+    return () => clearTimeout(id);
+  }, [confirmacion, errorInscripcion]);
+
   const manejarInscripcion = async (e) => {
     e.preventDefault();
     if (enviandoRef.current || seleccion == null) return;
@@ -102,6 +111,12 @@ function App() {
         } catch (errorLectura) {
           console.error("Error:", errorLectura);
           await cargarEventos();
+        } finally {
+          setCampos({
+            nombre: "",
+            email: "",
+          });
+          setSeleccion(null);
         }
         return;
       }
@@ -157,16 +172,6 @@ function App() {
                   }
                 />
               </label>
-              {errorInscripcion && (
-                <p className="inscripcion-error" role="alert">
-                  {errorInscripcion}
-                </p>
-              )}
-              {confirmacion && (
-                <p className="inscripcion-ok" role="status">
-                  {confirmacion}
-                </p>
-              )}
               <button type="submit" disabled={enviando}>
                 {enviando ? "Enviando…" : "Confirmar inscripción"}
               </button>
@@ -174,6 +179,14 @@ function App() {
           )}
         </Fragment>
       ))}
+      {(errorInscripcion || confirmacion) && (
+        <p
+          className={`toast ${errorInscripcion ? "toast--error" : "toast--ok"}`}
+          role={errorInscripcion ? "alert" : "status"}
+        >
+          {errorInscripcion || confirmacion}
+        </p>
+      )}
     </main>
   );
 }

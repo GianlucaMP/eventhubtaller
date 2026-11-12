@@ -96,18 +96,33 @@
   cursor: not-allowed;
 }
 
-.inscripcion-ok,
-.inscripcion-error {
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  z-index: 50;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(90vw, 360px);
   margin: 0;
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
   font-size: 0.95rem;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%);
 }
 
-.inscripcion-ok {
-  color: #86efac;
+.toast--ok {
+  color: #dcfce7;
+  background: #14532d;
+  border: 1px solid #22c55e;
 }
 
-.inscripcion-error {
-  color: #fca5a5;
+.toast--error {
+  color: #fee2e2;
+  background: #7f1d1d;
+  border: 1px solid #f87171;
 }
 
 @media (prefers-color-scheme: light) {
@@ -149,11 +164,15 @@
     background: #e5e7eb;
   }
 
-  .inscripcion-ok {
-    color: #15803d;
+  .toast--ok {
+    color: #14532d;
+    background: #dcfce7;
+    border-color: #16a34a;
   }
 
-  .inscripcion-error {
-    color: #b91c1c;
+  .toast--error {
+    color: #7f1d1d;
+    background: #fee2e2;
+    border-color: #dc2626;
   }
 }
